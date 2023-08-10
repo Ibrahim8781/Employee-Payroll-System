@@ -1,38 +1,43 @@
+// Ibrahim Ahmad
+// JAVA OOP concepts implementation
+// 10 / 08 / 2023
+// Islamabad Pakistan
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
-abstract class Employee{
+// abstract class of employee because we don't want to make employee class object
+abstract class Employee {
 
-    private final String  employeeName ;
+    private final String employeeName;
     private final int employeeID;
 
-    public Employee(String employeeName   , int employeeID ) {
+    public Employee(String employeeName, int employeeID) {
         this.employeeName = employeeName;
         this.employeeID = employeeID;
     }
+
     public String getEmployeeName() {
         return employeeName;
     }
     public int getEmployeeID() {
         return employeeID;
     }
-
-
-
     @Override
     public String toString() {
-        return ( "Employee Name = \" " + this.employeeName + " \"  ID = \" "
-                + this.employeeID + " \" Salary = \" " + getEmployeeSalary() + " \" " );
+        return ("Employee Name = \" " + this.employeeName + " \"  ID = \" "
+                + this.employeeID + " \" Salary = \" " + getEmployeeSalary() + " \" ");
     }
-
     public abstract double getEmployeeSalary();
 }
 
 
-class FullTimeEmployee extends Employee{
+// Full Time employee class with monthly salary implemented
+class FullTimeEmployee extends Employee {
 
     private final double employeeMonthlySalary;
-    public FullTimeEmployee(String EmployeeName, int EmployeeID , double EmployeeMonthlySalary ) {
+
+    public FullTimeEmployee(String EmployeeName, int EmployeeID, double EmployeeMonthlySalary) {
         super(EmployeeName, EmployeeID);
         this.employeeMonthlySalary = EmployeeMonthlySalary;
     }
@@ -45,14 +50,14 @@ class FullTimeEmployee extends Employee{
 
 
 }
-
-class PartTimeEmployee extends Employee{
+// made Part-Time employee class with Hourly salary and work of hours
+class PartTimeEmployee extends Employee {
 
     private final int workHours;
     private final double hourlySalary;
 
-    PartTimeEmployee(String Name , int ID , int WorkHours , double HourlySalary){
-        super(Name , ID );
+    PartTimeEmployee(String Name, int ID, int WorkHours, double HourlySalary) {
+        super(Name, ID);
         this.workHours = WorkHours;
         this.hourlySalary = HourlySalary;
     }
@@ -63,7 +68,7 @@ class PartTimeEmployee extends Employee{
     }
 }
 
-class PayrollSystem{
+class PayrollSystem {
 
     private ArrayList<Employee> employeeList;
 
@@ -71,19 +76,17 @@ class PayrollSystem{
         employeeList = new ArrayList<>();
     }
 
-    public void addEmployee(Employee person)
-    {
+    public void addEmployee(Employee person) {
         employeeList.add(person);
     }
 
-    public void removeEmployee(int id)
-    {
+    public void removeEmployee(int id) {
 
         Employee EmployeeToRemove = null;
 
-        for(Employee employeeForCounter : employeeList){
-            if(employeeForCounter.getEmployeeID() == id) {
-                EmployeeToRemove = employeeForCounter ;
+        for (Employee employeeForCounter : employeeList) {
+            if (employeeForCounter.getEmployeeID() == id) {
+                EmployeeToRemove = employeeForCounter;
                 break;
             }
 
@@ -94,29 +97,40 @@ class PayrollSystem{
 
     }
 
-    public void displayEmployee(){
+    public void displayEmployee() {
 
         System.out.println("-------------------------------------------------------");
         System.out.println("         Displaying all Employees with details ");
         System.out.println("-------------------------------------------------------");
 
-        for (Employee employeeForCounter : employeeList ) {
+        for (Employee employeeForCounter : employeeList) {
             System.out.println(" Employee Name : " + employeeForCounter.getEmployeeName());
             System.out.println(" Employee ID : " + employeeForCounter.getEmployeeID());
             System.out.println(" Employee Salary : " + employeeForCounter.getEmployeeSalary());
         }
     }
 
+    public void payrollSummaries() {
+        long totalSalaries = 0;
+        for (Employee employeeForCounter : employeeList) {
+            totalSalaries += employeeForCounter.getEmployeeSalary();
+        }
+        System.out.println("------------------------------------------------------------------------------");
+        System.out.println("          Total Salaries for This System is  \" " + totalSalaries + " \" ");
+        System.out.println("------------------------------------------------------------------------------");
+    }
+
 
 }
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         PayrollSystem payrollSystem = new PayrollSystem();
 
         System.out.println(" /////////////////////////////////////////////////////////////////////////////");
-        System.out.println("         WELCOME TO JAVA OOP PAY ROLL MANAGEMENT SYSTEM");
-        System.out.println(" /////////////////////////////////////////////////////////////////////////////");
+        System.out.println("      *****     WELCOME TO JAVA OOP PAY ROLL MANAGEMENT SYSTEM     *****");
+        System.out.println(" /////////////////////////////////////////////////////////////////////////////\n \n");
 
         while (true) {
             System.out.println("-------------------------------------------------------");
@@ -126,7 +140,8 @@ public class Main {
             System.out.println("1). Add Employee");
             System.out.println("2). Remove Employee");
             System.out.println("3). Display Employees");
-            System.out.println("4). Exit");
+            System.out.println("4). Pay-Roll Summaries");
+            System.out.println("5). Exit");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
 
@@ -166,6 +181,10 @@ public class Main {
                     // Displaying employees
                         payrollSystem.displayEmployee();
                 case 4 -> {
+                    // Displaying total salaries summary of Pay-Roll System
+                    payrollSystem.payrollSummaries();
+                }
+                case 5 -> {
                     // Exiting
                     System.out.println("Exiting the program.");
                     scanner.close();
